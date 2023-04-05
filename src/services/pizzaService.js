@@ -9,33 +9,43 @@ export const getAll = async () => {
 }
 
 
-export const getById = async () => {
+export const getById = async (id) => {
     const conn = await sql.connect(configDB);
-    const results = await conn.request().query('SELECT * FROM Pizzas WHERE ');
+    const results = await conn.request().input("pId", id).query('SELECT * FROM Pizzas WHERE @pId = id');
 
     console.log(results);
 }
 
 
-export const updateById = async () => {
+export const updateById = async (id, nombre, descripcion, libreGluten, importe) => {
     const conn = await sql.connect(configDB);
-    const results = await conn.request().query('UPDATE * FROM Pizzas WHERE ');
+    const results = await conn.request().input("pId", id)
+    .input("pNombre", nombre)
+    .input("pDescripcion", descripcion)
+    .input("pLibreGluten", libreGluten)
+    .input("pImporte", importe)
+    .query('UPDATE Pizzas SET Nombre = @pNombre, Descripcion = @pDescripcion, LibreGluten = @pLibreGluten, Importe = @pImporte  WHERE @pId = id ');
 
     console.log(results);
 }
 
 
-export const deleteById = async () => {
+export const deleteById = async (id) => {
     const conn = await sql.connect(configDB);
-    const results = await conn.request().query('DELETE * FROM Pizzas WHERE ');
+    const results = await conn.request().input("pId", id).query('DELETE FROM Pizzas WHERE @pId = id');
 
     console.log(results);
 }
 
 
-export const insertById = async () => {
+export const insert = async (nombre, descripcion, libreGluten, importe) => {
     const conn = await sql.connect(configDB);
-    const results = await conn.request().query('INSERT * FROM Pizzas WHERE ');
+    const results = await conn.request() 
+    .input("pNombre", nombre)
+    .input("pDescripcion", descripcion)
+    .input("pLibreGluten", libreGluten)
+    .input("pImporte", importe)
+    .query('INSERT INTO Pizzas (Nombre, Descripcion, LibreGluten, Importe) VALUES (@pNombre, @pDescripcion, @pLibreGluten, @pImporte)');
 
     console.log(results);
 }
