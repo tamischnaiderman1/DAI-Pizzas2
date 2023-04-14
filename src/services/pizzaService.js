@@ -5,7 +5,7 @@ export const getAll = async () => {
     const conn = await sql.connect(configDB);
     const results = await conn.request().query('SELECT * FROM Pizzas');
 
-    console.log(results);
+    return results;
 }
 
 
@@ -13,7 +13,7 @@ export const getById = async (id) => {
     const conn = await sql.connect(configDB);
     const results = await conn.request().input("pId", id).query('SELECT * FROM Pizzas WHERE @pId = id');
 
-    console.log(results);
+    return results;
 }
 
 
@@ -26,7 +26,7 @@ export const updateById = async (id, nombre, descripcion, libreGluten, importe) 
     .input("pImporte", importe)
     .query('UPDATE Pizzas SET Nombre = @pNombre, Descripcion = @pDescripcion, LibreGluten = @pLibreGluten, Importe = @pImporte  WHERE @pId = id ');
 
-    console.log(results);
+    return results;
 }
 
 
@@ -34,7 +34,7 @@ export const deleteById = async (id) => {
     const conn = await sql.connect(configDB);
     const results = await conn.request().input("pId", id).query('DELETE FROM Pizzas WHERE @pId = id');
 
-    console.log(results);
+    return results;
 }
 
 
@@ -47,5 +47,5 @@ export const insert = async (nombre, descripcion, libreGluten, importe) => {
     .input("pImporte", importe)
     .query('INSERT INTO Pizzas (Nombre, Descripcion, LibreGluten, Importe) VALUES (@pNombre, @pDescripcion, @pLibreGluten, @pImporte)');
 
-    console.log(results);
+    return results;
 }
