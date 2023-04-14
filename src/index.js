@@ -41,8 +41,6 @@ app.listen(port, async( ) => {
     console.log(`Example app listening on port ${port}`)
 })
 
-
-
 //await getAll();
 //await getById(4);
 //await insert("tami", ""sin tacc", true, 25);
