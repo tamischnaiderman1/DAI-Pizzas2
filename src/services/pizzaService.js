@@ -5,6 +5,8 @@ export const getAll = async () => {
     const conn = await sql.connect(configDB);
     const results = await conn.request().query('SELECT * FROM Pizzas');
 
+    console.log(results)
+
     return results.recordset;
 }
 
