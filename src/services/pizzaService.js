@@ -19,13 +19,13 @@ export const getById = async (id) => {
 }
 
 
-export const updateById = async (id, nombre, descripcion, libreGluten, importe) => {
+export const updateById = async (id, pizza) => {
     const conn = await sql.connect(configDB);
-    const results = await conn.request().input("pId", id)
-    .input("pNombre", nombre)
-    .input("pDescripcion", descripcion)
-    .input("pLibreGluten", libreGluten)
-    .input("pImporte", importe)
+    const results = await conn.request().input("pId", sql.Int, id)
+    .input( "pNombre", sql.VarChar, pizza.nombre)
+    .input("pLibreGluten", sql.Bit, pizza.libreGluten)
+    .input( "pImporte", sql.Float, pizza.importe)
+    .input("pDescripcion", sql.VarChar, pizza.descripcion)
     .query('UPDATE Pizzas SET Nombre = @pNombre, Descripcion = @pDescripcion, LibreGluten = @pLibreGluten, Importe = @pImporte  WHERE @pId = id ');
 
     return results.recordset;
@@ -40,14 +40,16 @@ export const deleteById = async (id) => {
 }
 
 
-export const insert = async (nombre, descripcion, libreGluten, importe) => {
+export const insert = async (pizza) => {
     const conn = await sql.connect(configDB);
     const results = await conn.request() 
-    .input("pNombre", nombre)
-    .input("pDescripcion", descripcion)
-    .input("pLibreGluten", libreGluten)
-    .input("pImporte", importe)
-    .query('INSERT INTO Pizzas (Nombre, Descripcion, LibreGluten, Importe) VALUES (@pNombre, @pDescripcion, @pLibreGluten, @pImporte)');
+    .input( "pNombre", sql.VarChar, pizza.nombre)
+    .input("pLibreGluten", sql.Bit, pizza.libreGluten)
+    .input( "pImporte", sql.Float, pizza.importe)
+    .input("pDescripcion", sql.VarChar, pizza.descripcion)
+
+    
+    .query('INSERT INTO Pizzas (Nombre, LibreGluten, Importe, Descripcion) VALUES (@pNombre, @pLibreGluten, @pImporte, @pDescripcion)');
 
     return results.recordset;
 }

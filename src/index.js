@@ -6,7 +6,7 @@ import Pizza from './models/pizza.js';
 const app = express()
 const port = 3000
 
-app.use(express.json)
+app.use(express.json())
 
 app.get('/', async(req, res) => {
     const PizzasRock = await getAll()
@@ -52,7 +52,7 @@ app.put('/:id', async(req, res) => {
     pizza.importe = req.body.Importe
     pizza.descripcion = req.body.Descripcion
 
-    const PizzasReggaeton = await updateById(pizza)
+    const PizzasReggaeton = await updateById(id, pizza)
     res.send(PizzasReggaeton)
 })
 
